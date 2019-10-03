@@ -32,7 +32,7 @@ public class Polinomio {
      */
     public Polinomio(double v[]) {
         for (int i = 0; i < v.length; i++) {
-            if (Cero.esCero(v[i])) {
+            if (!Cero.esCero(v[i])) {
                 datos.add(new Monomio(v[i], i));
             }
         }
@@ -151,14 +151,28 @@ public class Polinomio {
         /*Hacerlo con iteradores, en cada iteración del bucle leemos el siguiente monomio de cada lista. si tienen el mismo exponente se suman sin mas. Si el this es menor que
          otro avanzamos this, si el otro es menor se añade detrás del elemento actual de this. Si al sumar el coeficiente es 0 se deberá eliminar ese elemento.Si una de las listas
          llegan al final tendremos que añadir los elementos que queden*/
-        Iterator<Monomio> it1 = this.datos.iterator();
-        Iterator<Monomio> it2 = otro.datos.iterator();
+        ListIterator<Monomio> it1 = this.datos.listIterator();
+        ListIterator<Monomio> it2 = otro.datos.listIterator();
+        Monomio m1=null;
+        Monomio m2=null;
 
         while(it1.hasNext() && it2.hasNext()){
-        	if(it1.next().exponente==it2.next().exponente){
-
+            m1=it1.next();
+            m2=it2.next();
+        	if(m1.exponente==m2.exponente){
+        	    m1.coeficiente+=m2.coeficiente;
+        	    if(Cero.esCero(m1.coeficiente))
+        	        it1.remove();
 			}
+        	if(m1.exponente<m2.exponente)
+        	    it2.previous();
+        	if(m1.exponente>m2.exponente) {
+                it1.previous();
+                it1.add(m2);
+            }
 		}
+        while(it2.hasNext())
+            this.datos.add(it2.next());
 
         //TODO Ejercicio 1
     }
@@ -170,6 +184,8 @@ public class Polinomio {
      * @param mono
      */
     public void multiplicarMonomio(Monomio mono) {
+        if(Cero.esCero(mono.coeficiente))
+            this.datos.clear();
         for (Monomio item : this.datos) {
             item.coeficiente *= mono.coeficiente;
             item.exponente += mono.exponente;
