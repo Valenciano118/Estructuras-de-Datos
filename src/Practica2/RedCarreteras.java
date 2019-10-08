@@ -16,6 +16,8 @@ public class RedCarreteras {
 	 * Crea una red de carreteras vacías.
 	 */
 	public RedCarreteras() {
+		red=new HashMap<String, Map<String, Integer>>();
+
 		// TODO Ejercicio 2
 	}
 
@@ -60,6 +62,18 @@ public class RedCarreteras {
 	 *             si el tramo no es válido.
 	 */
 	public int nuevoTramo(String una, String otra, int distancia) {
+		validarTramo(una, otra, distancia);
+
+		if(red.containsKey(una)){
+			HashMap<String,Integer> mp = red.
+
+		}
+
+
+
+
+
+
 		//TODO Ejercicio 2
 		return -2;
 	}
