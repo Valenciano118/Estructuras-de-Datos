@@ -1,6 +1,7 @@
 package Practica2;
 
 import javax.print.attribute.HashDocAttributeSet;
+import javax.xml.crypto.dsig.spec.HMACParameterSpec;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,30 +75,28 @@ public class RedCarreteras {
                 Map<String, Integer> tramoUna = red.get(una);
                 HashMap<String, Integer> tramoOtra = new HashMap<>();
 
-                tramoUna.put(otra,distancia);
-                tramoOtra.put(una,distancia);
+                tramoUna.put(otra, distancia);
+                tramoOtra.put(una, distancia);
 
-                red.put(otra,tramoOtra);
+                red.put(otra, tramoOtra);
+            } else if (red.containsKey(otra)) {
+                HashMap<String, Integer> tramoUna = new HashMap<>();
+                Map<String, Integer> tramoOtra = red.get(otra);
+
+                tramoUna.put(otra, distancia);
+                tramoOtra.put(una, distancia);
+
+                red.put(una, tramoUna);
+            } else {
+                HashMap<String, Integer> tramoUna = new HashMap<>();
+                HashMap<String, Integer> tramoOtra = new HashMap<>();
+
+                tramoUna.put(otra, distancia);
+                tramoOtra.put(una, distancia);
+
+                red.put(una, tramoUna);
+                red.put(otra, tramoOtra);
             }
-            else if(red.containsKey(otra)){
-            	HashMap<String,Integer> tramoUna= new HashMap<>();
-            	Map<String,Integer> tramoOtra = red.get(otra);
-
-            	tramoUna.put(otra,distancia);
-            	tramoOtra.put(una,distancia);
-
-            	red.put(una,tramoUna);
-			}
-            else{
-            	HashMap<String,Integer> tramoUna= new HashMap<>();
-            	HashMap<String,Integer> tramoOtra= new HashMap<>();
-
-            	tramoUna.put(otra,distancia);
-            	tramoOtra.put(una,distancia);
-
-            	red.put(una,tramoUna);
-            	red.put(otra,tramoOtra);
-			}
         }
         //TODO Ejercicio 2
         return anteriorTramo;
@@ -146,8 +145,18 @@ public class RedCarreteras {
      * de los tramos, o -1 si el camino no es posible o no incluye ninguna ciudad.
      */
     public int compruebaCamino(List<String> camino) {
+        int distanciaTotal = 0;
+		Map<String,Integer> tramo;
+        for (int i = 0; i < camino.size()-1; i++) {
+        	tramo=red.get(camino.get(i));
+        	if(!tramo.containsKey(camino.get(i+1)))
+        		return -1;
+        	if(camino.get(i).equals(camino.get(i+1)))
+        		return 0;
+			distanciaTotal+=tramo.get(camino.get(i));
+        }
         // TODO Ejercicio 2
-        return -2;
+        return distanciaTotal;
     }
 
     public String masProxima(String una) {
