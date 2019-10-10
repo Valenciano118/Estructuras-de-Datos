@@ -60,46 +60,24 @@ public class RedCarreteras {
      */
     public int nuevoTramo(String una, String otra, int distancia) {
         validarTramo(una, otra, distancia);
-        int anteriorTramo = -1;
+        Integer anteriorTramo = -1;
 
-        if (red.containsKey(una) && red.containsKey(otra)) {
-            Map<String, Integer> tramoUna = red.get(una);
-            Map<String, Integer> tramoOtra = red.get(otra);
+        Map<String, Integer> tramoUna = red.get(una), tramoOtra = red.get(otra);
 
-            anteriorTramo = tramoUna.get(una);
-
-            tramoUna.put(otra, distancia);
-            tramoOtra.put(una, distancia);
-        } else {
-            if (red.containsKey(una)) {
-                Map<String, Integer> tramoUna = red.get(una);
-                HashMap<String, Integer> tramoOtra = new HashMap<>();
-
-                tramoUna.put(otra, distancia);
-                tramoOtra.put(una, distancia);
-
-                red.put(otra, tramoOtra);
-            } else if (red.containsKey(otra)) {
-                HashMap<String, Integer> tramoUna = new HashMap<>();
-                Map<String, Integer> tramoOtra = red.get(otra);
-
-                tramoUna.put(otra, distancia);
-                tramoOtra.put(una, distancia);
-
-                red.put(una, tramoUna);
-            } else {
-                HashMap<String, Integer> tramoUna = new HashMap<>();
-                HashMap<String, Integer> tramoOtra = new HashMap<>();
-
-                tramoUna.put(otra, distancia);
-                tramoOtra.put(una, distancia);
-
-                red.put(una, tramoUna);
-                red.put(otra, tramoOtra);
-            }
+        if (tramoUna == null) {
+            tramoUna = new HashMap<String, Integer>();
+            red.put(una, tramoUna);
         }
+        if (tramoOtra == null) {
+            tramoOtra = new HashMap<String, Integer>();
+            red.put(otra, tramoOtra);
+        }
+        anteriorTramo = tramoUna.put(otra, distancia);
+        tramoOtra.put(una, distancia);
+
+        return (anteriorTramo == null ? -1 : anteriorTramo);
+
         //TODO Ejercicio 2
-        return anteriorTramo;
     }
 
     /**
@@ -145,15 +123,18 @@ public class RedCarreteras {
      * de los tramos, o -1 si el camino no es posible o no incluye ninguna ciudad.
      */
     public int compruebaCamino(List<String> camino) {
+        if (camino.size() == 0)
+            return -1;
         int distanciaTotal = 0;
-		Map<String,Integer> tramo;
-        for (int i = 0; i < camino.size()-1; i++) {
-        	tramo=red.get(camino.get(i));
-        	if(!tramo.containsKey(camino.get(i+1)))
-        		return -1;
-        	if(camino.get(i).equals(camino.get(i+1)))
-        		return 0;
-			distanciaTotal+=tramo.get(camino.get(i));
+        Map<String, Integer> tramo;
+        for (int i = 0; i < camino.size() - 1; i++) {
+            tramo = red.get(camino.get(i));
+            if (camino.get(i) == null || camino.get(i + 1) == null)
+                return -1;
+            if (camino.get(i) != camino.get(i + 1) && !tramo.containsKey(camino.get(i + 1)))
+                return -1;
+            if (!camino.get(i).equals(camino.get(i + 1)))
+                distanciaTotal += tramo.get(camino.get(i + 1));
         }
         // TODO Ejercicio 2
         return distanciaTotal;
