@@ -36,7 +36,6 @@ public class Polinomio {
                 datos.add(new Monomio(v[i], i));
             }
         }
-        // TODO Ejercicio 1
     }
 
     /**
@@ -174,7 +173,6 @@ public class Polinomio {
         while(it2.hasNext())
             this.datos.add(it2.next());
 
-        //TODO Ejercicio 1
     }
 
 
@@ -190,6 +188,5 @@ public class Polinomio {
             item.coeficiente *= mono.coeficiente;
             item.exponente += mono.exponente;
         }
-        // TODO Ejercicio 1
     }
 }

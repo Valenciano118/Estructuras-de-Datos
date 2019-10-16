@@ -19,8 +19,6 @@ public class RedCarreteras {
      */
     public RedCarreteras() {
         red = new HashMap<String, Map<String, Integer>>();
-
-        // TODO Ejercicio 2
     }
 
     /**
@@ -76,8 +74,6 @@ public class RedCarreteras {
         tramoOtra.put(una, distancia);
 
         return (anteriorTramo == null ? -1 : anteriorTramo);
-
-        //TODO Ejercicio 2
     }
 
     /**
@@ -136,7 +132,6 @@ public class RedCarreteras {
             if (!camino.get(i).equals(camino.get(i + 1)))
                 distanciaTotal += tramo.get(camino.get(i + 1));
         }
-        // TODO Ejercicio 2
         return distanciaTotal;
     }
 
