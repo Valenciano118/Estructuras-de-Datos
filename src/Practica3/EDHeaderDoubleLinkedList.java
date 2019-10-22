@@ -43,6 +43,7 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * Constructor por defecto
 	 */
 	public EDHeaderDoubleLinkedList() {
+		this.header=new Node(null);
 		//TODO
 	}
 
@@ -76,6 +77,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * @return Devuelve el nodo o null si no encuetra un nodo con ese contenido
 	 */
 	private Node findNode(Object item) {
+		Node aux=this.header;
+		while(aux.data!=null) {
+			aux = aux.next;
+			if(aux.data.equals(item))
+				return(aux);
+		}
+		return null;
 		//TODO
 	}
 
@@ -112,6 +120,17 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * @return el nuevo nodo
 	 */
 	private Node insertBefore(Node n, T item) {
+		Node aux=findNode(n);
+        Node aux2=aux.prev;
+        Node nuevo=new Node(item);
+
+        nuevo.next=aux;
+        nuevo.prev=aux2;
+        aux2.next=nuevo;
+        aux.prev=nuevo;
+
+        size++;
+        return nuevo;
 		//TODO
 	}
 
@@ -119,6 +138,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * @param n
 	 */
 	private void removeNode(Node n) {
+		Node aux=findNode(n);
+		Node aux2=aux.next;
+		aux=aux.prev;
+
+		aux.next=aux2;
+		aux2.prev=aux;
+		size--;
 		//TODO
 	}
 
@@ -146,11 +172,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 
 	@Override
 	public void add(int index, T element) {
+		insertBefore(findIndex(index),element);
 		//TODO
 	}
 
 	@Override
 	public boolean remove(Object item) {
+		removeNode(findNode(item));
 		//TODO
 	}
 
@@ -162,6 +190,7 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 		Node n = findIndex(index);
 		removeNode(n);
 		return n.data;
+
 	}
 
 	@Override
@@ -211,6 +240,15 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 
 	@Override
 	public int lastIndexOf(Object item) {
+		Node aux=this.header;
+		int i=0;
+		while(aux.prev!=null){
+			aux=aux.prev;
+			i++;
+			if(aux.data.equals(item))
+				return size-i;
+		}
+		return 0;
 		//TODO
 	}
 
@@ -251,6 +289,7 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
+		new
     	//TODO
 	}
 	
