@@ -44,6 +44,8 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 */
 	public EDHeaderDoubleLinkedList() {
 		this.header=new Node(null);
+		header.next=header;
+		header.prev=header;
 		//TODO
 	}
 
@@ -77,11 +79,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * @return Devuelve el nodo o null si no encuetra un nodo con ese contenido
 	 */
 	private Node findNode(Object item) {
-		Node aux=this.header;
-		while(aux.data!=null) {
-			aux = aux.next;
-			if(aux.data.equals(item))
-				return(aux);
+		if(size>0) {
+			Node aux = this.header.next;
+			while (aux != header) {
+				if (compareNull(aux.data, item))
+					return (aux);
+				aux = aux.next;
+			}
 		}
 		return null;
 		//TODO
@@ -120,14 +124,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * @return el nuevo nodo
 	 */
 	private Node insertBefore(Node n, T item) {
-		Node aux=findNode(n);
-        Node aux2=aux.prev;
+
         Node nuevo=new Node(item);
 
-        nuevo.next=aux;
-        nuevo.prev=aux2;
-        aux2.next=nuevo;
-        aux.prev=nuevo;
+        nuevo.next=n;
+        nuevo.prev=n.prev;
+        n.prev.next=nuevo;
+        n.prev=nuevo;
 
         size++;
         return nuevo;
@@ -138,12 +141,10 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	 * @param n
 	 */
 	private void removeNode(Node n) {
-		Node aux=findNode(n);
-		Node aux2=aux.next;
-		aux=aux.prev;
 
-		aux.next=aux2;
-		aux2.prev=aux;
+		n.prev.next=n.next;
+		n.next.prev=n.prev;
+
 		size--;
 		//TODO
 	}
@@ -179,6 +180,7 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	@Override
 	public boolean remove(Object item) {
 		removeNode(findNode(item));
+		return true;
 		//TODO
 	}
 
@@ -240,13 +242,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 
 	@Override
 	public int lastIndexOf(Object item) {
-		Node aux=this.header;
+		Node aux=this.header.prev;
 		int i=0;
-		while(aux.prev!=null){
-			aux=aux.prev;
-			i++;
-			if(aux.data.equals(item))
-				return size-i;
+		while(aux!=header){
+			if(compareNull(aux.data,item))
+				return size-i-1;
+		aux=aux.prev;
+		i++;
 		}
 		return 0;
 		//TODO
@@ -289,7 +291,13 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		new
+		Iterator<?> it=c.iterator();
+		EDHeaderDoubleLinkedList aux = new EDHeaderDoubleLinkedList();
+		T elem=null;
+		while(it.hasNext()){
+			it.next();
+
+		}
     	//TODO
 	}
 	
