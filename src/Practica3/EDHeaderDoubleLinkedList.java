@@ -250,7 +250,7 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 		aux=aux.prev;
 		i++;
 		}
-		return 0;
+		return -1;
 		//TODO
 	}
 
@@ -292,12 +292,16 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		Iterator<?> it=c.iterator();
-		EDHeaderDoubleLinkedList aux = new EDHeaderDoubleLinkedList();
-		T elem=null;
-		while(it.hasNext()){
-			it.next();
-
+		Node nodo=this.header.next;
+		while(nodo!=header){
+			if(!c.contains(nodo.data)){
+				nodo=nodo.next;
+				this.removeNode(nodo.prev);
+			}
+			else
+			nodo=nodo.next;
 		}
+	return true;
     	//TODO
 	}
 	

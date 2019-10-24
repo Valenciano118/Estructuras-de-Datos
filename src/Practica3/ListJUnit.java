@@ -1,4 +1,4 @@
-package Practica3;
+package EDHeaderDoubleLinkedList;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import Practica3.EDHeaderDoubleLinkedList;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -328,6 +329,26 @@ public class ListJUnit {
 				assertEquals("indexOf("+i+")", -1, l.indexOf(i));
 			}
 	
+		}
+	}
+
+	@Test
+	public void testlastIndexOf() {
+		System.out.println("\nValidando método lastIndexOf(T)...\n");
+		List<Integer> l = createFillList();
+		for (int i=0; i < l.size()/2; i++)
+			l.set(i + 10, l.get(i));
+
+		System.out.println("inicial -> " + l);
+
+		for(int i=-5; i < 16 ; i++) {
+			System.out.println("lastIndexOf(" + i + ") -> " + l.lastIndexOf(i));
+			if (i >= 0 && i < 10) {
+				assertEquals("lastIndexOf("+i+")", i+10, l.lastIndexOf(i));
+			} else {
+				assertEquals("lastIndexOf("+i+")", -1, l.lastIndexOf(i));
+			}
+
 		}
 	}
 
