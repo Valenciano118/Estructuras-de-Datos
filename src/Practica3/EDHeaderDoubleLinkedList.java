@@ -295,10 +295,8 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 		Node nodo=this.header.next;
 		while(nodo!=header){
 			if(!c.contains(nodo.data)){
-				nodo=nodo.next;
-				this.removeNode(nodo.prev);
+				this.removeNode(nodo);
 			}
-			else
 			nodo=nodo.next;
 		}
 	return true;
