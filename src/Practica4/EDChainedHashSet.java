@@ -109,21 +109,19 @@ public class EDChainedHashSet<T> implements Set<T> {
     private void rehash() {
         if (size > rehashThreshold) {
             Node old[] = table, aux;
-            table = new EDChainedHashSet.Node[old.length * 2];
+            table = new EDChainedHashSet.Node[2 * table.length];
             size = 0;
+            rehashThreshold *= 2;
             for (int i = 0; i < old.length; i++) {
-                if (old[i] != null) {
-                    aux = old[i];
-                    while (aux != null) {
-                        add(old[i].data);
-                        aux = aux.next;
-                    }
+                aux = old[i];
+                while (aux != null) {
+                    add(aux.data);
+                    aux = aux.next;
                 }
             }
-            rehashThreshold *= 2;
         }
-        // TODO
     }
+    // TODO
 
     public int getCapacity() {
         return table.length;
@@ -173,21 +171,26 @@ public class EDChainedHashSet<T> implements Set<T> {
 
     @Override
     public boolean remove(Object item) {
-		int pos = hash(item);
-		if (table[pos] == null)
-			return false;
-		else {
-			Node aux=table[pos];
-			while (aux.next != null) { //Prestar atención, si el nodo que eliminas
-				if (compareNull(aux.data, item)) {
-					aux.next = null;
-					size--;
-					return true;
-				}
-				aux = aux.next;
-			}
-		}
-		return false;
+        int pos = hash(item);
+        if (table[pos] == null)
+            return false;
+        else {
+            Node aux = table[pos];
+            if (compareNull(aux.data, item)) {
+                table[pos] = aux.next;
+                size--;
+                return true;
+            }
+            while (aux.next != null) {
+                if (compareNull(aux.next.data, item)) {
+                    aux.next = aux.next.next;
+                    size--;
+                    return true;
+                }
+                aux = aux.next;
+            }
+        }
+        return false;
 
         //TODO
     }
@@ -204,6 +207,9 @@ public class EDChainedHashSet<T> implements Set<T> {
 
     @Override
     public void clear() {
+        for (int i = 0; i < table.length; i++)
+            table[i] = null;
+        size = 0;
         //TODO
     }
 
@@ -240,7 +246,20 @@ public class EDChainedHashSet<T> implements Set<T> {
     */
     @Override
     public boolean retainAll(Collection<?> c) {
-        return true;
+        Node aux = null;
+        int taminicial = size;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null)
+                aux = table[i];
+            while (aux != null) {
+                if (!c.contains(aux.data))
+                    remove(aux.data);
+                aux = aux.next;
+            }
+        }
+        if (taminicial != size)
+            return true;
+        return false;
         //TODO
     }
 
