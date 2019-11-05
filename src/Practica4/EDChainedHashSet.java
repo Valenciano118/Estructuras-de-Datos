@@ -121,7 +121,6 @@ public class EDChainedHashSet<T> implements Set<T> {
             }
         }
     }
-    // TODO
 
     public int getCapacity() {
         return table.length;
@@ -129,7 +128,6 @@ public class EDChainedHashSet<T> implements Set<T> {
 
     @Override
     public boolean add(T item) {
-        rehash();
 
         int pos = hash(item);
         Node aux;
@@ -148,8 +146,8 @@ public class EDChainedHashSet<T> implements Set<T> {
             aux.next = new Node(item);
         }
         size++;
+        rehash();
         return true;
-        //TODO
     }
 
     @Override
@@ -166,7 +164,6 @@ public class EDChainedHashSet<T> implements Set<T> {
             }
         }
         return false;
-        //TODO
     }
 
     @Override
@@ -191,8 +188,6 @@ public class EDChainedHashSet<T> implements Set<T> {
             }
         }
         return false;
-
-        //TODO
     }
 
     @Override
@@ -210,7 +205,6 @@ public class EDChainedHashSet<T> implements Set<T> {
         for (int i = 0; i < table.length; i++)
             table[i] = null;
         size = 0;
-        //TODO
     }
 
     // Los siguientes métodos asumen la existencia de iteradores.
@@ -260,7 +254,6 @@ public class EDChainedHashSet<T> implements Set<T> {
         if (taminicial != size)
             return true;
         return false;
-        //TODO
     }
 
     //mirar cada coleccion y si es c borra toda la coleccion

@@ -46,7 +46,6 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 		this.header=new Node(null);
 		header.next=header;
 		header.prev=header;
-		//TODO
 	}
 
 	/**
@@ -88,7 +87,6 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 			}
 		}
 		return null;
-		//TODO
 	}
 
 	/**
@@ -134,7 +132,6 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 
         size++;
         return nuevo;
-		//TODO
 	}
 
 	/** Borra el nodo n. Decrementa el valor de size
@@ -146,7 +143,6 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 		n.next.prev=n.prev;
 
 		size--;
-		//TODO
 	}
 
 	@Override
@@ -174,14 +170,12 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 	@Override
 	public void add(int index, T element) {
 		insertBefore(findIndex(index),element);
-		//TODO
 	}
 
 	@Override
 	public boolean remove(Object item) {
 		removeNode(findNode(item));
 		return true;
-		//TODO
 	}
 
 	@Override
@@ -251,7 +245,6 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 		i++;
 		}
 		return -1;
-		//TODO
 	}
 
     @Override
@@ -300,7 +293,6 @@ public class EDHeaderDoubleLinkedList<T> implements List<T> {
 			nodo=nodo.next;
 		}
 	return true;
-    	//TODO
 	}
 	
 	@Override
