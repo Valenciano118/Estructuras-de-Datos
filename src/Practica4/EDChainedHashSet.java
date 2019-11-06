@@ -131,19 +131,21 @@ public class EDChainedHashSet<T> implements Set<T> {
 
         int pos = hash(item);
         Node aux;
-
         if (table[pos] == null) {
             table[pos] = new Node(item);
         } else {
             aux = table[pos];
-            while (aux.next != null) {
+            while (aux != null) {
                 if (compareNull(aux.data, item))
                     return false;
                 aux = aux.next;
             }
-            if (compareNull(aux.data, item))
+            /*if (compareNull(aux.data, item))
                 return false;
-            aux.next = new Node(item);
+             */
+            aux = new Node(item);
+            aux.next = table[pos];
+            table[pos] = aux;
         }
         size++;
         rehash();
@@ -240,8 +242,28 @@ public class EDChainedHashSet<T> implements Set<T> {
     */
     @Override
     public boolean retainAll(Collection<?> c) {
-        Node aux = null;
+        Node aux1 = null, aux2 = null;
         int taminicial = size;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null)
+                aux2 = table[i];
+            while (aux2 != null) {
+                if (!c.contains(aux2.data)) {
+                    if(aux2==table[i]){
+                        table[i]=aux2.next;
+                    }
+                    else{
+                        aux1.next=aux2.next;
+                    }
+                    size--;
+                }
+
+                aux1=aux2;
+                aux2=aux2.next;
+            }
+
+        }
+        /*
         for (int i = 0; i < table.length; i++) {
             if (table[i] != null)
                 aux = table[i];
@@ -251,6 +273,9 @@ public class EDChainedHashSet<T> implements Set<T> {
                 aux = aux.next;
             }
         }
+
+         */
+
         if (taminicial != size)
             return true;
         return false;
