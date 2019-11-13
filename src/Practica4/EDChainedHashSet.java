@@ -140,9 +140,6 @@ public class EDChainedHashSet<T> implements Set<T> {
                     return false;
                 aux = aux.next;
             }
-            /*if (compareNull(aux.data, item))
-                return false;
-             */
             aux = new Node(item);
             aux.next = table[pos];
             table[pos] = aux;
