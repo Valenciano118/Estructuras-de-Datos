@@ -66,70 +66,55 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
 
 
     public E first() {
-    BinaryNode aux= root;
-    BinaryNode auxMenor=root;
-    while(aux.left!=null && aux.right!=null) {
-        if (aux.left != null) {
-            if(compare(aux.data,auxMenor.data)>0)
-                auxMenor=aux;
+        BinaryNode aux = root;
+        E resultado = null;
+        while (aux != null) {
+            resultado = aux.data;
             aux = aux.left;
-
-        } else
-            if(aux.right!=null){
-            aux = aux.right;  //Hacer un nodo auxiliar que almacene el nodo menor.
         }
-
-
-    }
-    return auxMenor.data;
+        return resultado;
         //TODO      
     }
 
     public E last() {
-        BinaryNode aux= root;
-        BinaryNode auxAnterior=null;
-        while(aux!=null){
-            if(aux.right!=null){
-                auxAnterior=aux;
-                aux=aux.right;
-            }
-            else{
-                auxAnterior=aux;
-                aux=aux.left;
-            }
+        BinaryNode aux = root;
+        E resultado = null;
+        while (aux != null) {
+            resultado=aux.data;
+            aux = aux.right;
         }
-        return auxAnterior.data;
+        return resultado;
         //TODO
     }
 
     private boolean add(BinaryNode n, E item) {
-        if(n.left==null){
-            if(compare(n.data,item)>0){
-                n.left=new BinaryNode(item);
+        if (n.left == null) {
+            if (compare(n.data, item) > 0) {
+                n.left = new BinaryNode(item);
                 size++;
                 return true;
             }
         }
-        if(n.right==null){
-            if(compare(n.data,item)<0){
-                n.right=new BinaryNode(item);
+        if (n.right == null) {
+            if (compare(n.data, item) < 0) {
+                n.right = new BinaryNode(item);
                 size++;
                 return true;
             }
 
         }
-            if (compare(n.data, item) == 0)
-                return false;
-            if (compare(n.data, item) > 0)
-                return add(n.left, item);
-            else
-                return add(n.right, item);
+        if (compare(n.data, item) == 0)
+            return false;
+        if (compare(n.data, item) > 0)
+            return add(n.left, item);
+        else
+            return add(n.right, item);
     }
 
     @Override
 
     public boolean add(E item) {
-        if (size==0) {
+        if (size == 0) {
             root = new BinaryNode(item);
             size++;
             return true;
@@ -161,14 +146,14 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
         if (compare(n.data, item) == 0)
             return n;
 
-        if(compare(n.data,item)>0){
-            if(n.left!=null){
-                return contains(n.left,item);
+        if (compare(n.data, item) > 0) {
+            if (n.left != null) {
+                return contains(n.left, item);
             }
         }
-        if(compare(n.data,item)<0){
-            if(n.right!=null)
-                return contains(n.right,item);
+        if (compare(n.data, item) < 0) {
+            if (n.right != null)
+                return contains(n.right, item);
         }
         return null;
 
@@ -177,7 +162,7 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
     @Override
 
     public boolean contains(Object arg0) {
-        if (contains(root, (E) arg0)==null)
+        if (contains(root, (E) arg0) == null)
             return false;
         return true;
         //TODO 
@@ -202,6 +187,23 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
 
     @Override
     public boolean remove(Object arg0) {
+        /*BinaryNode aux = root;
+        BinaryNode auxAnterior = null;
+        while (aux != null) {
+            if (compare(aux.data, (E) arg0) > 0) {
+                auxAnterior = aux;
+                aux = aux.left;
+            } else if (compare(aux.data, (E) arg0) < 0) {
+                auxAnterior = aux;
+                aux = aux.right;
+            }
+
+
+        }
+
+         */
+
+
         return false;
         //TODO
     }
