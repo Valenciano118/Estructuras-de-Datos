@@ -184,27 +184,23 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
     public boolean isEmpty() {
         return (size == 0);
     }
-
-    @Override
-    public boolean remove(Object arg0) {
-        /*BinaryNode aux = root;
-        BinaryNode auxAnterior = null;
-        while (aux != null) {
-            if (compare(aux.data, (E) arg0) > 0) {
-                auxAnterior = aux;
-                aux = aux.left;
-            } else if (compare(aux.data, (E) arg0) < 0) {
-                auxAnterior = aux;
-                aux = aux.right;
-            }
-
+    private BinaryNode remove(E item,BinaryNode n){
+        if(n==null)
+            insertReturn=false;
+        if(compare(n.data,item)<0){
+            n.right=remove(item,n.right);
+            return n;
+        }
+        if(compare(n.data,item)==0){
 
         }
 
-         */
 
-
-        return false;
+    }
+    @Override
+    public boolean remove(Object arg0) {
+        root=remove((E)arg0,root);
+        return insertReturn;
         //TODO
     }
 
