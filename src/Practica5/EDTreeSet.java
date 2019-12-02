@@ -1,9 +1,7 @@
 package Practica5;
 
-import java.beans.BeanInfo;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.Iterator;
@@ -80,7 +78,7 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
         BinaryNode aux = root;
         E resultado = null;
         while (aux != null) {
-            resultado=aux.data;
+            resultado = aux.data;
             aux = aux.right;
         }
         return resultado;
@@ -184,23 +182,45 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
     public boolean isEmpty() {
         return (size == 0);
     }
-    private BinaryNode remove(E item,BinaryNode n){
-        if(n==null)
-            insertReturn=false;
-        if(compare(n.data,item)<0){
-            n.right=remove(item,n.right);
-            return n;
+    private BinaryNode buscarMin(BinaryNode n){
+        BinaryNode anterior=n;
+        while(n!=null){
+            if(n.left!=null)
+                anterior=n;
+                n=n.left;
         }
-        if(compare(n.data,item)==0){
-
-        }
-
-
+        return anterior;
     }
+    private BinaryNode remove(E item, BinaryNode n) {
+        if (n == null)
+            return n;
+        else if (compare(item, n.data) < 0)
+            n.left=remove(item, n.left);
+        else if (compare(item,n.data)>0)
+            n.right=remove(item,n.right);
+        else{
+            if(n.left==null && n.right==null){
+                n =null; size--; return n;}
+            else if(n.left==null){
+                n = n.right; size--; return n;}
+            else if(n.right==null){
+                n = n.left; size--; return n;}
+            else{
+                BinaryNode aux=buscarMin(n.right);
+                n.data=aux.data;
+                n.right=remove(aux.data, n.right);
+            }
+        }
+        return n;
+    }
+
     @Override
     public boolean remove(Object arg0) {
-        root=remove((E)arg0,root);
-        return insertReturn;
+        int sizeAnterior=size;
+        remove((E)arg0,root);
+        if(sizeAnterior>size)
+            return true;
+        return false;
         //TODO
     }
 
