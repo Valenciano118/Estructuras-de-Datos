@@ -154,7 +154,6 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
                 return contains(n.right, item);
         }
         return null;
-
     }
 
     @Override
@@ -182,33 +181,42 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
     public boolean isEmpty() {
         return (size == 0);
     }
-    private BinaryNode buscarMin(BinaryNode n){
-        BinaryNode anterior=n;
-        while(n!=null){
-            if(n.left!=null)
-                anterior=n;
-                n=n.left;
-        }
-        return anterior;
+
+    private BinaryNode buscarMin(BinaryNode n) {
+        while (n.left != null)
+            n = n.left;
+        return n;
     }
+    private BinaryNode buscarMax(BinaryNode n) {
+        while (n.right != null)
+            n = n.right;
+        return n;
+    }
+
     private BinaryNode remove(E item, BinaryNode n) {
         if (n == null)
             return n;
         else if (compare(item, n.data) < 0)
-            n.left=remove(item, n.left);
-        else if (compare(item,n.data)>0)
-            n.right=remove(item,n.right);
-        else{
-            if(n.left==null && n.right==null){
-                n =null; size--; return n;}
-            else if(n.left==null){
-                n = n.right; size--; return n;}
-            else if(n.right==null){
-                n = n.left; size--; return n;}
-            else{
-                BinaryNode aux=buscarMin(n.right);
-                n.data=aux.data;
-                n.right=remove(aux.data, n.right);
+            n.left = remove(item, n.left);
+        else if (compare(item, n.data) > 0)
+            n.right = remove(item, n.right);
+        else {
+            if (n.left == null && n.right == null) { //0 hijos
+                n = null;
+                size--;
+                return n;
+            } else if (n.left == null) { // 1 Hijo a la derecha
+                n = n.right;
+                size--;
+                return n;
+            } else if (n.right == null) { //1 Hijo a la izquierda
+                n = n.left;
+                size--;
+                return n;
+            } else { //2 Hijos
+                BinaryNode aux = buscarMin(n.right);
+                n.data = aux.data;
+                n.right = remove(aux.data, n.right);
             }
         }
         return n;
@@ -216,11 +224,12 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
 
     @Override
     public boolean remove(Object arg0) {
-        int sizeAnterior=size;
-        remove((E)arg0,root);
-        if(sizeAnterior>size)
+        int previousSize=size;
+        root=remove((E)arg0,root);
+        if (previousSize>size)
             return true;
         return false;
+
         //TODO
     }
 
