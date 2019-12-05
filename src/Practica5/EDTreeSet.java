@@ -72,7 +72,6 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
             aux = aux.left;
         }
         return resultado;
-        //TODO      
     }
 
     public E last() {
@@ -83,7 +82,6 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
             aux = aux.right;
         }
         return resultado;
-        //TODO
     }
 
     private boolean add(BinaryNode n, E item) {
@@ -163,7 +161,6 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
         if (contains(root, (E) arg0) == null)
             return false;
         return true;
-        //TODO 
     }
 
 
@@ -231,7 +228,6 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
         if (previousSize > size)
             return true;
         return false;
-        //TODO
     }
 
     private BinaryNode ceiling(E item, BinaryNode n,BinaryNode padre) {
@@ -260,7 +256,6 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
         if(aux==null)
             return null;
         return aux.data;
-        //TODO
     }
 
     @Override
