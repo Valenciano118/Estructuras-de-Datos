@@ -19,7 +19,7 @@ public class TreeSetJUnit<E> {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        generator = new Random(17);
+        generator = new Random();
     }
 
 

@@ -1,5 +1,6 @@
 package Practica5;
 
+import java.beans.BeanInfo;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
@@ -187,6 +188,7 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
             n = n.left;
         return n;
     }
+
     private BinaryNode buscarMax(BinaryNode n) {
         while (n.right != null)
             n = n.right;
@@ -224,18 +226,40 @@ public class EDTreeSet<E extends Comparable<E>> implements Set<E> {
 
     @Override
     public boolean remove(Object arg0) {
-        int previousSize=size;
-        root=remove((E)arg0,root);
-        if (previousSize>size)
+        int previousSize = size;
+        root = remove((E) arg0, root);
+        if (previousSize > size)
             return true;
         return false;
-
         //TODO
     }
 
+    private BinaryNode ceiling(E item, BinaryNode n,BinaryNode padre) {
+        if(compare(item,n.data)==0)
+            return n;
+        else if(n.right!=null && compare(item,n.data)>0) {
+            if (compare(item, n.data) < 0)
+                padre = n;
+            return ceiling(item,n.right,padre);
+        } else if(n.left!=null && compare(item,n.data)<0){
+            if(compare(item,n.data)<0)
+                padre = n;
+            return ceiling(item,n.left,padre);
+        }
+        if(n.right==null && compare(item,n.data)<0)
+            return n;
+        if(n.left==null && compare(item,n.data)<0)
+            return n;
+        return padre;
+    }
 
     public E ceiling(E e) {
-        return null;
+        if(root==null)
+            return null;
+        BinaryNode aux = ceiling(e,root,null);
+        if(aux==null)
+            return null;
+        return aux.data;
         //TODO
     }
 
